@@ -1,4 +1,4 @@
-#Project description
+# Project description
 
 TODO list: Календарь для планирования задач название + описание проекта
 
