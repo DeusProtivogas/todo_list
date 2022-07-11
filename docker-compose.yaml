@@ -1,6 +1,12 @@
 version: "2.1"
 
 services:
+  front:
+    image: sermalenk/skypro-front:lesson-38
+    ports:
+      - 8080:80
+    depends_on:
+      - api
   api:
     build:
       context: .
