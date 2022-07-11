@@ -1,14 +1,6 @@
 version: "3.9"
 
 services:
-#  front:
-#    build:
-#      dockerfile: Dockerfile
-#      context: front
-#    ports:
-#      - 8034:80
-#    depends_on:
-#      - api
   api:
     build:
       context: .
