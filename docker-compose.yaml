@@ -6,19 +6,21 @@ services:
       context: .
     ports:
       - 8000:8000
-    depends_on:
+    depends_on: [
       postgres:
         condition: service_healthy
       migrations:
         condition: service_completed_successfully
+    ]
     volumes:
       - ./.docker_env:/app/.env
   migrations:
     build:
       context: .
-    depends_on:
+    depends_on: [
       postgres:
         condition: service_healthy
+        ]
     volumes:
       - ./.docker_env:/app/.env
     command: python manage.py migrate
