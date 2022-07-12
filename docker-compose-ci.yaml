@@ -2,9 +2,7 @@ version: "2.1"
 
 services:
   front:
-    build:
-      dockerfile: Dockerfile
-      context: front
+    image: sermalenk/skypro-front:lesson-38
     ports:
       - 8034:80
     depends_on:
