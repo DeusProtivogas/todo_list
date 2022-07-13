@@ -15,7 +15,7 @@ services:
 #      migrations:
 #        condition:
       migrations:
-        condition: service_healthy #service_completed_successfully
+        condition: service_completed_successfully
     volumes:
       - ./.env:/app/.env
   migrations:
