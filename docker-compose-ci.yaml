@@ -24,7 +24,7 @@ services:
       postgres:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "ls"]
       interval: 10s
       timeout: 5s
       retries: 5
