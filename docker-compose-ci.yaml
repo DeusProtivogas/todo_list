@@ -14,7 +14,6 @@ services:
         condition: service_healthy
 #      migrations:
 #        condition:
-
       migrations:
         condition: service_healthy #service_completed_successfully
     volumes:
@@ -46,6 +45,3 @@ services:
 #      - ./postgres-data:/var/lib/postgresql/data
     volumes:
         - pg_data:/var/lib/postgresql/data
-
-volumes:
-  pg_data:
