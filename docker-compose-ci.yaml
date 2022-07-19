@@ -24,7 +24,7 @@ services:
       postgres:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres  -d todolist" ]
       interval: 10s
       timeout: 5s
       retries: 5

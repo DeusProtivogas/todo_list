@@ -16,18 +16,22 @@ services:
       postgres:
         condition: service_healthy
       migrations:
-        condition: service_completed_successfully
-    ]
+        condition: service_healthy
     volumes:
-      - ./.docker_env:/app/.env
+      - ./.env:/app/.env
   migrations:
     build:
       context: .
     depends_on:
       postgres:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres  -d todolist"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
-      - ./.docker_env:/app/.env
+      - ./.env:/app/.env
     command: python manage.py migrate
   postgres:
     image: postgres:latest
