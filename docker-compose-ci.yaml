@@ -24,7 +24,7 @@ services:
       postgres:
         condition: service_healthy
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres  -d todolist" ]
+      test: [ "CMD-SHELL", "pg_isready -U postgres  -d todolist_db" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -35,7 +35,7 @@ services:
     image: postgres:latest
     environment:
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: todolist
+      POSTGRES_DB: todolist_db
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
