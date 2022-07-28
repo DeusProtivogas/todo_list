@@ -16,12 +16,14 @@ services:
       postgres:
         condition: service_healthy
       migrations:
-        condition: service_healthy
+        condition: service_completed_successfully
     volumes:
       - ./.env:/app/.env
   migrations:
     build:
       context: .
+    links:
+      - postgres
     depends_on:
       postgres:
         condition: service_healthy
