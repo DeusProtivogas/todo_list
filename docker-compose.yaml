@@ -5,7 +5,7 @@ services:
   front:
     image: sermalenk/skypro-front:lesson-34
     ports:
-      - 8034:80
+      - "8034:80"
     depends_on:
       - api
 
