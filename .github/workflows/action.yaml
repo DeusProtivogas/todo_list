@@ -1,5 +1,5 @@
 name: Build and deploy action
-on: [push]
+on: [ push ]
 jobs:
   build_and_push:
     runs-on: ubuntu-latest
@@ -20,6 +20,7 @@ jobs:
       DB_USER: ${{ secrets.DB_USER }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       DB_NAME: ${{ secrets.DB_NAME }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
     steps:
       - name: clone code
         uses: actions/checkout@v2
@@ -34,7 +35,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
-          source: "deploy/docker-compose.yaml,deploy/.env"
+          source: "deploy/*"
           target: "todolist"
           strip_components: 1
       - name: run docker-compose
@@ -45,4 +46,14 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd todolist
-            echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker-compose up -d
+            echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker compose up -d
+      - name: Cleaup after deploy
+        if: always()
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            cd todolist
+            echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker image prune -a -f
