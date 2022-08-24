@@ -10,27 +10,18 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-import environ
 import os
 # import dj_database_url
 from pathlib import Path
 
-# from dotenv import load_dotenv
-from dotenv import load_dotenv
+import environ
 
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, False),
-    SECRET_KEY=(str, "key"),
-)
-# env = environ.Env()
-
-load_dotenv()
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
+env = environ.Env(DEBUG=(bool, False), SECRET_KEY=(str, 'key'))
+environ.Env.read_env(
+    env_file=BASE_DIR.joinpath('.env'),
+)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -41,7 +32,6 @@ SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
-
 
 ALLOWED_HOSTS = ["*"]
 # ALLOWED_HOSTS = env("ALLOWED_HOSTS")
@@ -92,7 +82,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'todolist.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 #
@@ -102,27 +91,10 @@ WSGI_APPLICATION = 'todolist.wsgi.application'
 #     "default": env.db('DATABASE_URL'),
 # }
 
-# DATABASES = {"default": env.db()}
 DATABASES = {
     'default': env.db('DATABASE_URL'),
-    # 'default': {
-    #         'ENGINE': 'django.db.backends.postgresql',
-    #         'NAME': os.environ.get('POSTGRES_NAME'),
-    #         'USER': os.environ.get('POSTGRES_USER'),
-    #         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-    #         'HOST': 'localhost',
-    #         'PORT': 5433,
-    # }
+
 }
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -142,7 +114,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -153,7 +124,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -166,7 +136,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "django_static")
 
 MEDIA_URL = "/django_media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "django_media")
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
