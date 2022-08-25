@@ -1,5 +1,5 @@
 name: Build and deploy action
-on: [push]
+on: [ push ]
 jobs:
   build_and_push:
     runs-on: ubuntu-latest
@@ -20,6 +20,7 @@ jobs:
       DB_USER: ${{ secrets.DB_USER }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       DB_NAME: ${{ secrets.DB_NAME }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
     steps:
       - name: clone code
         uses: actions/checkout@v2
