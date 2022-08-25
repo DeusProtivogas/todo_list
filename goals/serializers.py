@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from goals.models import GoalCategory, Goal
+from goals.models import GoalCategory, Goal, GoalComment
 from core.serializers import UserSerializer
 
 
@@ -39,3 +39,25 @@ class GoalSerializer(serializers.ModelSerializer):
 
 class GoalCreateSerializer(GoalSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+
+class CommentCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GoalComment
+        fields = '__all__'
+        read_only_fields = ("id", "created", "updated")
+
+    def validate_goal(self, value):
+        if value.user != self.context['request'].user:
+            raise ValueError("Not the owner")
+        return value
+
+
+class CommentSerializer(CommentCreateSerializer):
+    # goal = GoalSerializer(read_only=True)
+    user = UserSerializer(read_only=True, source='owner')
+
+
+# class CommentCreateSerializer(BaseGoalCommentSerializer):
+#     goal = GoalSerializer(read_only=True)
+#     # user = UserSerializer(read_only=True, source='owner')
