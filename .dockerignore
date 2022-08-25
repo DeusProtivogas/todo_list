@@ -1,0 +1,11 @@
+.docker_ci_env
+.env
+.git
+.github
+.gitignore
+.idea
+.python-version
+Dockerfile
+README.md
+*.yaml
+venv
