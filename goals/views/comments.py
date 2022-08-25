@@ -19,7 +19,7 @@ class CommentCreateView(CreateAPIView):
 
 class CommentView(RetrieveUpdateDestroyAPIView):
     model = GoalComment
-    serializer_class = CommentCreateSerializer
+    serializer_class = CommentSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):

@@ -55,7 +55,7 @@ class CommentCreateSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(CommentCreateSerializer):
     # goal = GoalSerializer(read_only=True)
-    user = UserSerializer(read_only=True, source='owner')
+    user = UserSerializer(read_only=True, source='goal.user')
 
 
 # class CommentCreateSerializer(BaseGoalCommentSerializer):
