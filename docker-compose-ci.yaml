@@ -30,8 +30,6 @@ services:
         condition: service_completed_successfully
     env_file:
       - .env
-#    volumes:
-#      - ./:/app/
     command: python manage.py runbot
 
   migrations:
