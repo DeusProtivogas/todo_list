@@ -26,6 +26,23 @@ services:
     volumes:
       - ./:/app/
 
+
+  bot:
+    build:
+      context: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: psql://postgres:password@postgres:5432/todolist
+    volumes:
+      - ./:/app/
+    command: python manage.py runbot
+
   migrations:
     build:
       context: .

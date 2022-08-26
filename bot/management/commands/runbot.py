@@ -9,6 +9,8 @@ from bot.tg.dc import Message
 
 from bot.models import TgUser
 
+from goals.models import Goal
+
 
 class Command(BaseCommand):
 
@@ -29,6 +31,19 @@ class Command(BaseCommand):
             text=f"[verification code]: {code}",
         )
 
+    def handle_goals_list(self, msg: Message, tg_user: TgUser):
+        resp_goals: list[str] = [
+            f'#{goal.id} {goal.title}'
+            for goal in Goal.objects.filter(user_id=tg_user.user_id)
+        ]
+        self.tg_client.send_message(msg.chat.id, '\n'.join(resp_goals) or '[no goals found]')
+
+    def handle_verified_user(self, msg: Message, tg_user: TgUser):
+        if msg.text == '/goals':
+            self.handle_goals_list(msg=msg, tg_user=tg_user)
+        elif msg.text.startswith('/'):
+            self.tg_client.send_message(msg.chat.id, '[incorrect command]')
+
     def handle_message(self, msg: Message):
         tg_user, created = TgUser.objects.get_or_create(
             chat_id=msg.chat.id,
@@ -42,7 +57,7 @@ class Command(BaseCommand):
         elif not tg_user.user:
             self.handle_user_without_verification(msg=msg,tg_user=tg_user)
         else:
-            ...
+            self.handle_verified_user(msg=msg,tg_user=tg_user)
 
 
 
