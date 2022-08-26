@@ -8,6 +8,7 @@ from goals.serializers import CommentCreateSerializer, CommentSerializer
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticated
 
+from goals.permissions import CommentPermissions
 
 
 class CommentCreateView(CreateAPIView):
@@ -15,21 +16,24 @@ class CommentCreateView(CreateAPIView):
     serializer_class = CommentCreateSerializer
 
     permission_classes = [IsAuthenticated]
+    # permission_classes = [CommentPermissions]
 
 
 class CommentView(RetrieveUpdateDestroyAPIView):
     model = GoalComment
     serializer_class = CommentSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [CommentPermissions]
 
     def get_queryset(self):
-        return GoalComment.objects.all() #filter(goal__user=self.request.user)
+        # return GoalComment.objects.filter(goal__user=self.request.user)
+        return GoalComment.objects.filter(goal__category__board__participants__user=self.request.user)
 
 
 
 class CommentListView(ListAPIView):
     model = GoalComment
     serializer_class = CommentSerializer
+    permission_classes = [CommentPermissions]
     pagination_class = LimitOffsetPagination
     filter_backends = [
         DjangoFilterBackend,
@@ -40,6 +44,7 @@ class CommentListView(ListAPIView):
     ordering = "-id"
 
     def get_queryset(self):
-        return GoalComment.objects.all() #filter(goal__user=self.request.user)
+        # return GoalComment.objects.all() #filter(goal__user=self.request.user)
+        return GoalComment.objects.filter(goal__category__board__participants__user=self.request.user)
 
 
