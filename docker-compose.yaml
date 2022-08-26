@@ -27,6 +27,19 @@ services:
       - ./:/app/
 
 
+
+  migrations:
+    build:
+      context: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: psql://postgres:password@postgres:5432/todolist
+    command: python manage.py migrate
+
   bot:
     build:
       context: .
@@ -42,18 +55,6 @@ services:
     volumes:
       - ./:/app/
     command: python manage.py runbot
-
-  migrations:
-    build:
-      context: .
-    depends_on:
-      postgres:
-        condition: service_healthy
-    env_file:
-      - .env
-    environment:
-      DATABASE_URL: psql://postgres:password@postgres:5432/todolist
-    command: python manage.py migrate
 
   postgres:
     image: postgres:13.0-alpine
