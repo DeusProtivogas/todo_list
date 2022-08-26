@@ -34,7 +34,7 @@ services:
       DATABASE_URL: psql://postgres:password@postgres:5432/todolist
     volumes:
       - ./:/app/
-    command: python manage.py runbot
+#    command: python manage.py runbot
 
   migrations:
     image: deusprotiv/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
