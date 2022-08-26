@@ -1,18 +1,21 @@
+
 from dataclasses import field
 from typing import ClassVar, Type, List, Optional
 
-from marshmallow import Schema, EXCLUDE
 from marshmallow_dataclass import dataclass
+from marshmallow import Schema, EXCLUDE
+
 
 @dataclass
 class MessageFrom:
     id: int
-    first_name: Optional[str] = None
-    last_name: Optional[str] = None
-    username: Optional[str] = None
+    first_name: str
+    last_name: Optional[str]
+    username: str
 
     class Meta:
         unknown = EXCLUDE
+
 
 @dataclass
 class Chat:
@@ -30,12 +33,13 @@ class Chat:
 @dataclass
 class Message:
     message_id: int
-    from_: MessageFrom = field(metadata={'date_key': 'from'})
+    from_: MessageFrom = field(metadata={"data_key": "from"})
     chat: Chat
     text: Optional[str] = None
 
     class Meta:
         unknown = EXCLUDE
+
 
 @dataclass
 class UpdateObj:
@@ -44,6 +48,7 @@ class UpdateObj:
 
     class Meta:
         unknown = EXCLUDE
+
 
 @dataclass
 class GetUpdatesResponse:
