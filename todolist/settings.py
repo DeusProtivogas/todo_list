@@ -187,6 +187,7 @@ INSTALLED_APPS = [
     "core",
     "social_django",
     "goals",
+    "bot",
 ]
 
 AUTH_USER_MODEL = "core.User"
@@ -313,3 +314,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "django_media")
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+BOT_TOKEN = env.str("BOT_TOKEN")
