@@ -20,6 +20,7 @@ def user_token(client, django_user_model):
         format="json",
     )
 
-
+    # print(response.data)
+    # print("Fixture: " + response.data[0])
 
     return response.data

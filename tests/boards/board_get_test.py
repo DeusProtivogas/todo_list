@@ -1,5 +1,7 @@
 import pytest
 
+from goals.models import Board
+
 
 @pytest.mark.django_db
 def test_board_get(client, user_token):
