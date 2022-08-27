@@ -94,9 +94,6 @@ class Command(BaseCommand):
     def handle_save_new_goal(self, msg: Message, tg_user: TgUser):
         goal: NewGoal = FSM_STATES[tg_user.chat_id].goal
         goal.goal_title = msg.text
-        print("TEST GOAL: ", goal)
-        print(goal.complete())
-        print("HEREHERE")
         if goal.complete():
             Goal.objects.create(
                 title=goal.goal_title,
@@ -105,7 +102,6 @@ class Command(BaseCommand):
             )
             self.tg_client.send_message(msg.chat.id, text='[New Goal created]')
         else:
-            print("TEST GOAL: ", goal)
             self.tg_client.send_message(msg.chat.id, text='[Something went wrong]')
 
         FSM_STATES.pop(tg_user.chat_id, None)
@@ -133,7 +129,7 @@ class Command(BaseCommand):
         elif msg.text.startswith('/'):
             self.tg_client.send_message(msg.chat.id, '[incorrect command]')
 
-        print(FSM_STATES)
+
 
     def handle_message(self, msg: Message):
         tg_user, created = TgUser.objects.get_or_create(
@@ -159,16 +155,7 @@ class Command(BaseCommand):
         while True:
             res = self.tg_client.get_updates(offset=offset)
             for item in res.result:
-                print("ITEM: ", item)
                 offset = item.update_id + 1
-                # print(item.message)
                 self.handle_message(msg=item.message)
                 # self.tg_client.send_message(chat_id=item.message.chat.id, text=item.message.text)
 
-        # while True:
-        #     res = self.tg_client.get_updates(offset=offset)
-        #     for item in res.result:
-        #         # print("HERE: ", item.get("update_id"))
-        #         offset = item["update_id"] + 1
-        #         print(item["message"])
-        #         self.tg_client.send_message(chat_id=item["message"]["chat"]["id"], text=item["message"]["text"])

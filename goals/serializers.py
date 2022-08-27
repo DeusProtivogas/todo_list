@@ -166,16 +166,15 @@ class CommentCreateSerializer(serializers.ModelSerializer):
 
     def validate_goal(self, value):
 
-        # print("HERE: ", self.context['request'].user)
+
         if not BoardParticipant.objects.filter(
             board=value.category.board_id,
             role__in=[BoardParticipant.Role.OWNER, BoardParticipant.Role.WRITER],
             user=self.context['request'].user
         ).exists():
-            # print("HERE: ", self.context['request'].user)
             raise ValidationError("Must be owner or writer")
 
-        # print("HERE: ", self.context['request'].user)
+
 
         return value
 

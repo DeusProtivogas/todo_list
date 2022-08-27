@@ -1,0 +1,12 @@
+import pytest
+
+
+@pytest.mark.django_db
+def test_goal_list(client, user_token):
+
+    line = f"/goals/goal/list"
+
+    response = client.get(line)#, HTTP_AUTHORIZATION="Token " + user_token)
+
+    assert response.status_code == 200
+    assert response.data == []
