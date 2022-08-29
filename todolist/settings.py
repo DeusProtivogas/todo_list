@@ -230,14 +230,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'todolist.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-#
-# DATABASES = env('DATABASE_URL')
-
-# DATABASES = {
-#     "default": env.db('DATABASE_URL'),
-# }
 
 DATABASES = {
     'default': env.db('DATABASE_URL'),
